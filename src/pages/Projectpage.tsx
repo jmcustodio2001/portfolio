@@ -19,7 +19,6 @@ type Category = "all" | "featured";
 const ProjectsPage: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category>("all");
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
   useEffect(() => {
     const checkDevice = () => {
@@ -42,11 +41,11 @@ const ProjectsPage: React.FC = () => {
   const projects: Project[] = [
     {
       id: 1,
-      title: "Travel & Tourism Website",
+      title: "Jetlogue Travels: AI-Driven HR2 Management System",
       description:
-        "Join a workforce that travels the world, deliver unforgettable experiences and builds real career opportunities.",
+        "A comprehensive Enterprise Information System (EIS) developed to automate HR processes. Features include AI-driven talent analytics for succession planning, recruitment modules, and employee data management built with Laravel and MySQL.",
       image: project1Image,
-      tags: ["Laravel", "Bootstrap", "Tailwind", "MySQL", "API", "JavaScript"],
+      tags: ["Laravel", "Bootstrap", "Tailwind", "MySQL", "JavaScript"],
       category: "frontend",
       github: "https://github.com/jmcustodio2001/capstone",
       demo: "https://hr2.jetlougetravels-ph.com/",
@@ -55,9 +54,9 @@ const ProjectsPage: React.FC = () => {
     },
     {
       id: 2,
-      title: "TRANS GO",
+      title: "TRANS GO (TNVS Financial Management)",
       description:
-        "A financial management application designed to track transactions, manage budgets, and visualize spending habits.",
+        "A specialized financial application designed for Transport Network Vehicle Services (TNVS) to track daily earnings, manage operational expenses, and generate automated financial reports. Built to help drivers and operators visualize their net income and spending habits.",
       image: project2Image,
       tags: ["HTML", "Tailwind", "Javascript", "Bootstrap", "PHP", "MySQL"],
       category: "frontend",
@@ -72,7 +71,7 @@ const ProjectsPage: React.FC = () => {
       description:
         "My personal website for showcasing projects, skills, and experience.",
       image: project3Image,
-      tags: ["TypeScript", "React", "Tailwind"],
+      tags: ["TypeScript", "React", "TailwindCSS"],
       category: "frontend",
       github: "https://github.com/jmcustodio2001/portfolio.git",
       demo: "#",
@@ -180,8 +179,6 @@ const ProjectsPage: React.FC = () => {
                   key={project.id}
                   className="bg-gradient-to-br from-purple-900/40 to-pink-900/40 backdrop-blur-xl border border-purple-500/20 rounded-2xl overflow-hidden group hover:border-purple-500/50 transition-all hover:shadow-2xl hover:shadow-purple-500/20 hover:-translate-y-2 animate-scale-in"
                   style={{ animationDelay: `${index * 0.1}s` }}
-                  onMouseEnter={() => setHoveredProject(project.id)}
-                  onMouseLeave={() => setHoveredProject(null)}
                 >
                   {/* Project Image */}
                   <div

@@ -6,7 +6,6 @@ import {
   Rocket,
   Coffee,
   Briefcase,
-  Calendar,
   MapPin,
   Lightbulb,
   Clock,
@@ -17,7 +16,6 @@ import {
   Award,
   CheckCircle,
   Database,
-  Server,
   Layout,
   Code2,
   Terminal,
@@ -28,7 +26,6 @@ import {
   MessageSquare,
   CheckCircle2,
 } from "lucide-react";
-import type { Skill } from "../types";
 import DecryptedText from "./DecryptedText";
 
 interface WorkExperience {
@@ -41,7 +38,6 @@ interface WorkExperience {
 
 const AboutPage: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const checkDevice = () => {
@@ -285,8 +281,6 @@ const AboutPage: React.FC = () => {
                     <div
                       key={index}
                       data-index={index}
-                      onMouseEnter={() => setHoveredIndex(index)}
-                      onMouseLeave={() => setHoveredIndex(null)}
                       className="bg-gradient-to-r from-purple-900/30 to-purple-800/20 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-4 transition-all duration-300 hover:border-purple-500/60 hover:shadow-lg hover:shadow-purple-500/20 hover:scale-[1.02] animate-slide-in-left"
                       style={{ animationDelay: `${index * 0.1}s` }}
                     >

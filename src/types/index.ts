@@ -9,6 +9,8 @@ export interface Project {
   category: "frontend" | "backend" | "fullstack";
   github: string;
   demo: string;
+  featured?: boolean;
+  year?: string;
 }
 
 export interface Skill {
@@ -34,17 +36,4 @@ export interface FormData {
   name: string;
   email: string;
   message: string;
-}
-
-export interface Project {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  tags: string[];
-  category: "frontend" | "backend" | "fullstack";
-  github: string;
-  demo: string;
-  featured?: boolean;
-  year?: string;
 }

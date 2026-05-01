@@ -77,7 +77,7 @@ const HomePage: React.FC = () => {
 
   const stats = [
     {
-      value: "3+",
+      value: "3",
       label: "Projects",
       icon: FolderGit2,
       color: "from-blue-500 to-cyan-500",
