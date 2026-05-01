@@ -1,19 +1,43 @@
 // src/pages/ProjectsPage.tsx
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Github, ExternalLink, Code2, Award } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import {
+  Github,
+  ExternalLink,
+  Code2,
+  Sparkles,
+  Star,
+  Calendar,
+  ChevronRight,
+} from "lucide-react";
 import { Project } from "../types";
 import project1Image from "./1.PNG";
 import project2Image from "./11.PNG";
 import project3Image from "./2.PNG";
-// 👇 Import your certificate images here:
-// import cert1Image from "./cert1.PNG";
-// import cert2Image from "./cert2.PNG";
 
-type Category = "all";
+type Category = "all" | "featured";
 
 const ProjectsPage: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category>("all");
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkDevice();
+    window.addEventListener("resize", checkDevice);
+
+    if (window.innerWidth <= 768) {
+      document.documentElement.style.scrollBehavior = "smooth";
+    }
+
+    return () => {
+      window.removeEventListener("resize", checkDevice);
+      document.documentElement.style.scrollBehavior = "";
+    };
+  }, []);
 
   const projects: Project[] = [
     {
@@ -26,6 +50,8 @@ const ProjectsPage: React.FC = () => {
       category: "frontend",
       github: "https://github.com/jmcustodio2001/capstone",
       demo: "https://hr2.jetlougetravels-ph.com/",
+      featured: true,
+      year: "2025 - 2026",
     },
     {
       id: 2,
@@ -37,6 +63,8 @@ const ProjectsPage: React.FC = () => {
       category: "frontend",
       github: "https://github.com/jmcustodio2001/financial",
       demo: "#",
+      featured: false,
+      year: "2024 - 2025",
     },
     {
       id: 3,
@@ -44,218 +72,261 @@ const ProjectsPage: React.FC = () => {
       description:
         "My personal website for showcasing projects, skills, and experience.",
       image: project3Image,
-      tags: ["typescript, react, tailwind"],
+      tags: ["TypeScript", "React", "Tailwind"],
       category: "frontend",
-      github: "https://github.com/jmcustodio2001/financial",
+      github: "https://github.com/jmcustodio2001/portfolio.git",
       demo: "#",
+      featured: true,
+      year: "2026",
     },
   ];
 
-  // 👇 Add your certificates here
-  const certificates = [
-    {
-      id: 1,
-      title: "React Developer Certification",
-      issuer: "Meta",
-      image: "", // replace with: cert1Image
-    },
-    {
-      id: 2,
-      title: "Full Stack Web Development",
-      issuer: "freeCodeCamp",
-      image: "", // replace with: cert2Image
-    },
-    {
-      id: 3,
-      title: "UI/UX Design Fundamentals",
-      issuer: "Google",
-      image: "", // replace with: cert3Image
-    },
-    {
-      id: 4,
-      title: "JavaScript Algorithms",
-      issuer: "freeCodeCamp",
-      image: "", // replace with: cert4Image
-    },
-  ];
-
-  const categories: { id: Category; label: string }[] = [
-    { id: "all", label: "All" },
+  const categories: { id: Category; label: string; icon: any }[] = [
+    { id: "all", label: "All Projects", icon: Sparkles },
+    { id: "featured", label: "Featured", icon: Star },
   ];
 
   const filteredProjects: Project[] =
     selectedCategory === "all"
       ? projects
-      : projects.filter((project) => project.category === selectedCategory);
+      : selectedCategory === "featured"
+        ? projects.filter((project) => project.featured)
+        : projects.filter((project) => project.category === selectedCategory);
+
+  const getResponsiveStyles = () => {
+    if (isMobile) {
+      return {
+        containerPadding: "p-4 pt-20",
+        titleSize: "text-2xl",
+        headingSize: "text-xl",
+        cardPadding: "p-4",
+        imageHeight: "h-48",
+        tagSize: "text-xs",
+        descriptionSize: "text-sm",
+        gridCols: "grid-cols-1",
+        gapSize: "gap-4",
+      };
+    } else {
+      return {
+        containerPadding: "p-8 pt-24",
+        titleSize: "text-4xl",
+        headingSize: "text-2xl",
+        cardPadding: "p-6",
+        imageHeight: "h-64",
+        tagSize: "text-sm",
+        descriptionSize: "text-base",
+        gridCols: "grid-cols-1 lg:grid-cols-2 xl:grid-cols-2",
+        gapSize: "gap-6",
+      };
+    }
+  };
+
+  const styles = getResponsiveStyles();
 
   return (
-    <div className="relative w-full h-full">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="mobile-container relative z-10"
-      >
-        <section
-          className="relative z-[1] h-full"
-          style={{
-            background: `linear-gradient(to right, #100119, #080707)`,
-          }}
-        >
-          <div className="relative z-[2] min-h-screen p-4">
-            {/* ── PROJECTS SECTION ── */}
-            <motion.h2
-              initial={{ y: -20 }}
-              animate={{ y: 0 }}
-              className="text-2xl font-bold gradient-text mb-6"
-            >
-              My Projects
-            </motion.h2>
+    <div className="relative w-full min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-gray-900">
+      <div className="relative z-10 animate-fade-in">
+        <section className="relative z-[1] min-h-screen">
+          <div
+            className={`relative z-[2] ${styles.containerPadding} max-w-7xl mx-auto`}
+          >
+            {/* Hero Section */}
+            <div className="text-center mb-12 animate-slide-down">
+              <div className="inline-block mb-4 animate-spin-slow">
+                <Sparkles className="text-purple-400 w-8 h-8" />
+              </div>
+              <h2
+                className={`${styles.titleSize} font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-3`}
+              >
+                Projects
+              </h2>
+              <div className="h-1 w-20 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mb-4 animate-expand-width"></div>
+              <p className="text-gray-400 max-w-2xl mx-auto">
+                Exploring innovative solutions through code and design
+              </p>
+            </div>
 
             {/* Category Filter */}
-            <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+            <div
+              className={`flex gap-3 mb-8 ${
+                isMobile
+                  ? "overflow-x-auto pb-2 snap-x snap-mandatory"
+                  : "justify-center flex-wrap"
+              } animate-fade-up`}
+              style={{ animationDelay: "0.1s" }}
+            >
               {categories.map((category) => (
-                <motion.button
+                <button
                   key={category.id}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+                  className={`px-4 py-2 rounded-full whitespace-nowrap transition-all text-sm font-medium flex items-center gap-2 ${
+                    isMobile ? "snap-start" : ""
+                  } ${
                     selectedCategory === category.id
-                      ? "bg-linear-to-r from-blue-600 to-purple-600 text-white shadow-md"
-                      : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                      ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/25"
+                      : "bg-purple-900/30 text-gray-300 hover:bg-purple-800/50 border border-purple-500/20 hover:scale-105 transition-transform"
                   }`}
                 >
+                  <category.icon size={16} />
                   {category.label}
-                </motion.button>
+                </button>
               ))}
             </div>
 
             {/* Projects Grid */}
-            <AnimatePresence>
-              <motion.div layout className="space-y-6">
-                {filteredProjects.map((project, index) => (
-                  <motion.div
-                    key={project.id}
-                    layout
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="card bg-gray-900/50 border border-gray-800 overflow-hidden"
+            <div className={`grid ${styles.gridCols} ${styles.gapSize} mb-12`}>
+              {filteredProjects.map((project, index) => (
+                <div
+                  key={project.id}
+                  className="bg-gradient-to-br from-purple-900/40 to-pink-900/40 backdrop-blur-xl border border-purple-500/20 rounded-2xl overflow-hidden group hover:border-purple-500/50 transition-all hover:shadow-2xl hover:shadow-purple-500/20 hover:-translate-y-2 animate-scale-in"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                  onMouseEnter={() => setHoveredProject(project.id)}
+                  onMouseLeave={() => setHoveredProject(null)}
+                >
+                  {/* Project Image */}
+                  <div
+                    className={`relative overflow-hidden ${styles.imageHeight}`}
                   >
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-full object-cover transition-transform duration-600 group-hover:scale-110"
                     />
-                    <div className="p-5">
-                      <h3 className="text-lg font-semibold text-white mb-2">
+                    {project.featured && (
+                      <div className="absolute top-4 right-4 bg-gradient-to-r from-yellow-500 to-orange-500 px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                        <Star size={12} fill="white" />
+                        Featured
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-purple-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                      <div className="flex gap-2">
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 bg-white/20 backdrop-blur rounded-full hover:scale-110 transition-transform"
+                        >
+                          <Github size={18} />
+                        </a>
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 bg-white/20 backdrop-blur rounded-full hover:scale-110 transition-transform"
+                        >
+                          <ExternalLink size={18} />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Project Content */}
+                  <div className={styles.cardPadding}>
+                    <div className="flex items-center justify-between mb-2">
+                      <h3
+                        className={`${isMobile ? "text-base" : "text-xl"} font-semibold text-white group-hover:text-purple-400 transition-colors`}
+                      >
                         {project.title}
                       </h3>
-                      <p className="text-gray-400 text-sm mb-3">
-                        {project.description}
-                      </p>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2 py-1 bg-blue-900/30 text-blue-400 text-xs rounded-full"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="flex gap-3">
-                        <motion.a
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          href={project.github}
-                          className="flex items-center gap-1 text-gray-400 hover:text-white text-sm"
-                        >
-                          <Github size={16} />
-                          Code
-                        </motion.a>
-                        <motion.a
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          href={project.demo}
-                          className="flex items-center gap-1 text-blue-400 hover:text-blue-300 text-sm"
-                        >
-                          <ExternalLink size={16} />
-                          Live Demo
-                        </motion.a>
-                      </div>
+                      {project.year && (
+                        <div className="flex items-center gap-1 text-gray-500 text-xs">
+                          <Calendar size={12} />
+                          {project.year}
+                        </div>
+                      )}
                     </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </AnimatePresence>
+                    <p
+                      className={`text-gray-400 ${styles.descriptionSize} mb-4 leading-relaxed`}
+                    >
+                      {project.description}
+                    </p>
 
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tags.slice(0, 4).map((tag, tagIndex) => (
+                        <span
+                          key={tag}
+                          className={`px-2.5 py-1 bg-purple-900/50 text-purple-300 ${styles.tagSize} rounded-full border border-purple-500/30 hover:bg-purple-500/30 transition-colors animate-scale-in`}
+                          style={{
+                            animationDelay: `${index * 0.1 + 0.2 + tagIndex * 0.05}s`,
+                          }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                      {project.tags.length > 4 && (
+                        <span
+                          className={`px-2.5 py-1 bg-purple-900/50 text-purple-300 ${styles.tagSize} rounded-full border border-purple-500/30`}
+                        >
+                          +{project.tags.length - 4}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Links */}
+                    <div className="flex gap-4 pt-2 border-t border-purple-500/20">
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-gray-400 hover:text-white text-sm transition-all hover:translate-x-1"
+                      >
+                        <Github size={16} />
+                        <span>View Code</span>
+                      </a>
+                      <a
+                        href={project.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-purple-400 hover:text-purple-300 text-sm transition-all hover:translate-x-1 group/link"
+                      >
+                        <ExternalLink size={16} />
+                        <span>Live Demo</span>
+                        <ChevronRight
+                          size={14}
+                          className="transition-transform group-hover/link:translate-x-1"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* No Projects Message */}
             {filteredProjects.length === 0 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center py-12"
-              >
-                <Code2 size={48} className="mx-auto text-gray-400 mb-3" />
-                <p className="text-gray-500">
+              <div className="text-center py-16 bg-purple-900/30 backdrop-blur-xl rounded-2xl border border-purple-500/20 animate-fade-in">
+                <Code2 size={48} className="mx-auto text-purple-400 mb-3" />
+                <p className="text-gray-400">
                   No projects found in this category.
                 </p>
-              </motion.div>
+              </div>
             )}
-            {/* ── CERTIFICATES SECTION ── */}
-            <motion.h2
-              initial={{ y: -20 }}
-              animate={{ y: 0 }}
-              className="text-2xl font-bold gradient-text mt-10 mb-6"
+
+            {/* Call to Action with GitHub Link */}
+            <div
+              className="mt-12 text-center animate-fade-up"
+              style={{ animationDelay: "0.2s" }}
             >
-              My Certificates
-            </motion.h2>
-
-            <div className="grid grid-cols-2 gap-4">
-              {certificates.map((cert, index) => (
-                <motion.div
-                  key={cert.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="card bg-gray-900/50 border border-gray-800 overflow-hidden"
-                >
-                  {/* Certificate Image */}
-                  {cert.image ? (
-                    <img
-                      src={cert.image}
-                      alt={cert.title}
-                      className="w-full h-32 object-cover"
-                    />
-                  ) : (
-                    // Placeholder shown until you add real images
-                    <div className="w-full h-32 bg-gradient-to-br from-blue-900/20 to-purple-900/20 flex items-center justify-center">
-                      <Award size={36} className="text-purple-400" />
-                    </div>
-                  )}
-
-                  {/* Title & Issuer */}
-                  <div className="p-3">
-                    <h3 className="text-sm font-semibold text-white leading-tight mb-1">
-                      {cert.title}
-                    </h3>
-                    <p className="text-xs text-blue-400 font-medium">
-                      {cert.issuer}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
+              <a
+                href="https://github.com/jmcustodio2001"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600/20 to-pink-600/20 backdrop-blur-xl rounded-full border border-purple-500/30 hover:scale-105 transition-transform cursor-pointer group"
+              >
+                <Sparkles className="text-purple-400 w-4 h-4 animate-pulse-slow" />
+                <p className="text-gray-400 text-sm group-hover:text-white transition-colors">
+                  Want to see more? Check out my GitHub for additional projects
+                </p>
+                <ChevronRight className="text-purple-400 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </a>
             </div>
           </div>
 
-          <figure
-            className="absolute top-0 left-0 pointer-events-none w-full h-full overflow-hidden z-[1]"
-            aria-hidden="true"
-          >
+          {/* Background Decoration */}
+          <figure className="absolute top-0 left-0 pointer-events-none w-full h-full overflow-hidden z-[1]">
             <svg
-              className="absolute top-0 left-2/4 -translate-x-2/4 w-[134%] min-w-[1280px] max-w-[1980px] h-auto"
+              className={`absolute top-0 left-2/4 -translate-x-2/4 ${isMobile ? "w-[200%] opacity-30" : "w-[134%]"} h-auto ${isMobile ? "min-w-full" : "min-w-[1280px] max-w-[1980px]"}`}
               viewBox="0 0 1920 450"
               fill="none"
             >
@@ -346,7 +417,67 @@ const ProjectsPage: React.FC = () => {
             </svg>
           </figure>
         </section>
-      </motion.div>
+      </div>
+
+      {/* Pure Tailwind CSS Animations */}
+      <style>{`
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes fade-up {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes slide-down {
+          from {
+            opacity: 0;
+            transform: translateY(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes scale-in {
+          from {
+            opacity: 0;
+            transform: scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        @keyframes expand-width {
+          from { width: 0; }
+          to { width: 80px; }
+        }
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes pulse-slow {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+        
+        .animate-fade-in { animation: fade-in 0.5s ease forwards; }
+        .animate-fade-up { animation: fade-up 0.5s ease forwards; opacity: 0; }
+        .animate-slide-down { animation: slide-down 0.5s ease forwards; }
+        .animate-scale-in { animation: scale-in 0.3s ease forwards; opacity: 0; }
+        .animate-expand-width { animation: expand-width 0.5s ease forwards; }
+        .animate-spin-slow { animation: spin-slow 2s linear infinite; }
+        .animate-pulse-slow { animation: pulse-slow 2s ease-in-out infinite; }
+        
+        .transition-duration-600 { transition-duration: 600ms; }
+      `}</style>
     </div>
   );
 };

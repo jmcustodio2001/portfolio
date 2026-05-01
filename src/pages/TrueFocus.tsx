@@ -8,8 +8,12 @@ interface TrueFocusProps {
   blurAmount?: number;
   borderColor?: string;
   glowColor?: string;
+  textColor?: string;
   animationDuration?: number;
   pauseBetweenAnimations?: number;
+  fontSize?: string;
+  fontWeight?: string;
+  textGradient?: string;
 }
 
 interface FocusRect {
@@ -26,8 +30,12 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   blurAmount = 5,
   borderColor = "green",
   glowColor = "rgba(0, 255, 0, 0.6)",
+  textColor = "white",
   animationDuration = 0.5,
   pauseBetweenAnimations = 1,
+  fontSize = "text-[3rem]",
+  fontWeight = "font-black",
+  textGradient,
 }) => {
   const words = sentence.split(separator);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -96,9 +104,10 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
             ref={(el) => {
               wordRefs.current[index] = el;
             }}
-            className="relative text-[3rem] font-black cursor-pointer"
+            className={`relative cursor-pointer ${fontSize} ${fontWeight} ${textGradient ? "bg-clip-text text-transparent" : ""}`}
             style={
               {
+                color: textColor,
                 filter: manualMode
                   ? isActive
                     ? `blur(0px)`
@@ -109,6 +118,9 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
                 transition: `filter ${animationDuration}s ease`,
                 outline: "none",
                 userSelect: "none",
+                ...(textGradient && {
+                  backgroundImage: textGradient,
+                }),
               } as React.CSSProperties
             }
             onMouseEnter={() => handleMouseEnter(index)}

@@ -1,6 +1,5 @@
 // src/pages/AboutPage.tsx
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
 import {
   Code,
   Palette,
@@ -13,12 +12,23 @@ import {
   Clock,
   GitBranch,
   Search,
+  Sparkles,
+  Zap,
+  Award,
+  CheckCircle,
+  Database,
+  Server,
+  Layout,
+  Code2,
+  Terminal,
+  Layers,
+  Network,
+  Brain,
+  Users,
+  MessageSquare,
+  CheckCircle2,
 } from "lucide-react";
-import { GiStrong } from "react-icons/gi";
-import { PiBrainDuotone } from "react-icons/pi";
 import type { Skill } from "../types";
-import { RiTeamLine } from "react-icons/ri";
-import { RiVoiceprintFill } from "react-icons/ri";
 import DecryptedText from "./DecryptedText";
 
 interface WorkExperience {
@@ -26,36 +36,88 @@ interface WorkExperience {
   company: string;
   location: string;
   period: string;
-  description: string;
+  description: string[];
 }
 
 const AboutPage: React.FC = () => {
-  const skills: Skill[] = [
-    { name: "React", level: 40, color: "bg-blue-500" },
-    { name: "JavaScript", level: 50, color: "bg-yellow-500" },
-    { name: "Node.js", level: 30, color: "bg-green-500" },
-    { name: "Tailwind CSS", level: 80, color: "bg-teal-500" },
-    { name: "Python", level: 40, color: "bg-pink-500" },
-    { name: "HTML", level: 100, color: "bg-red-500" },
-    { name: "MySql", level: 50, color: "bg-purple-500" },
+  const [isMobile, setIsMobile] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkDevice();
+    window.addEventListener("resize", checkDevice);
+
+    return () => {
+      window.removeEventListener("resize", checkDevice);
+    };
+  }, []);
+
+  // Skills with icons
+  const skills = [
+    {
+      name: "React",
+      description:
+        "Building interactive components and single-page applications",
+      icon: Code2,
+    },
+    {
+      name: "TypeScript",
+      description: "Implementing basic type-safety in web projects",
+      icon: Layers,
+    },
+    {
+      name: "PHP & Laravel",
+      description:
+        "Developing HR and Financial systems with AI-driven analytics",
+      icon: Terminal,
+    },
+    {
+      name: "MySQL",
+      description: "Relational database design and query optimization",
+      icon: Database,
+    },
+    {
+      name: "Network Infrastructure",
+      description: "LAN/WAN configuration and technical troubleshooting",
+      icon: Network,
+    },
+    {
+      name: "JavaScript",
+      description: "Core ES6+ logic and functional web development",
+      icon: Code2,
+    },
+    {
+      name: "Tailwind CSS",
+      description: "Rapid UI styling and mobile-friendly design",
+      icon: Palette,
+    },
+    {
+      name: "HTML/CSS",
+      description: "Semantic markup and advanced responsive styling",
+      icon: Layout,
+    },
   ];
 
   const qualities = [
     { icon: Code, text: "Clean Code", color: "text-blue-500" },
-    { icon: Palette, text: "Creative Design", color: "text-purple-500" },
-    { icon: Rocket, text: "Fast Learning", color: "text-red-500" },
-    { icon: Coffee, text: "Problem Solver", color: "text-amber-600" },
-    { icon: GiStrong, text: "Hard Working", color: "text-yellow-600" },
-    { icon: PiBrainDuotone, text: "Adaptability", color: "text-cyan-500" },
-    { icon: RiTeamLine, text: "Team Work", color: "text-pink-500" },
+    { icon: Palette, text: "UI/UX Focus", color: "text-purple-500" },
+    { icon: Rocket, text: "Continuous Learning", color: "text-red-500" },
+    { icon: Coffee, text: "Analytical Thinking", color: "text-amber-600" },
+    { icon: CheckCircle2, text: "Results-Oriented", color: "text-emerald-500" },
+    { icon: Brain, text: "Adaptability", color: "text-cyan-500" },
+    { icon: Users, text: "Collaboration", color: "text-pink-500" },
     {
-      icon: RiVoiceprintFill,
-      text: "Communication Skills",
+      icon: MessageSquare,
+      text: "Technical Communication",
       color: "text-indigo-500",
     },
-    { icon: Lightbulb, text: "Critical Thinking", color: "text-orange-500" },
-    { icon: Clock, text: "Time Management", color: "text-teal-500" },
-    { icon: GitBranch, text: "Version Control", color: "text-green-600" },
+    { icon: Lightbulb, text: "Problem Solver", color: "text-orange-500" },
+    { icon: Clock, text: "Project Management", color: "text-teal-500" },
+    { icon: GitBranch, text: "Version Control (Git)", color: "text-green-600" },
     { icon: Search, text: "Attention to Detail", color: "text-rose-500" },
   ];
 
@@ -65,207 +127,283 @@ const AboutPage: React.FC = () => {
       company: "REDBERG Corp (PLDT 3rd Party)",
       location: "Caloocan, Manila",
       period: "2025 - 2026",
-      description:
-        " LAN/WAN setup, TCP/IP configuration, on-site network support.",
+      description: [
+        "Configured LAN/WAN infrastructure and resolved network issues for business clients — 300 hrs OJT",
+        "Performed on-site troubleshooting and subscriber validation, ensuring stable internet connectivity",
+      ],
     },
     {
-      title: "Electronics Repair — DOYS K Electronic Repair Shop",
-      company: "Digital Innovations Co.",
+      title: "Electronics Repair Technician",
+      company: "DOYS K Electronic Repair Shop",
       location: "Quiapo, Manila",
       period: "2019 – 2020",
-      description: "Hardware diagnostics, component repair and testing.",
+      description: [
+        "Diagnosed and repaired customer electronics with a focus on accuracy and fast turnaround",
+      ],
     },
     {
       title: "Computer Technician",
       company: "Artnetworkz Digital Printing / Internet Cafe",
       location: "Baesa, QC",
       period: "2017 – 2019",
-      description:
-        "PC maintenance, troubleshooting, technical support (Family Business).",
-    },
-    {
-      title: " Logistics & Support Assistant",
-      company: "Asia Brewery Inc.",
-      location: "Baesa, QC",
-      period: "2016 – 2017",
-      description: "Delivery operations, logistics coordination.",
+      description: [
+        "Maintained and troubleshot PCs for daily operations; developed strong hardware problem-solving skills",
+      ],
     },
   ];
 
+  // Responsive styles
+  const getResponsiveStyles = () => {
+    if (isMobile) {
+      return {
+        containerPadding: "p-4 pt-20",
+        titleSize: "text-2xl",
+        headingSize: "text-xl",
+        cardPadding: "p-4",
+        gapSize: "gap-3",
+        gridCols: "grid-cols-2",
+        skillGridCols: "grid-cols-1",
+        iconSize: 24,
+        textSize: "text-sm",
+        skillIconSize: 20,
+        sparkleSize: "w-6 h-6",
+      };
+    } else {
+      return {
+        containerPadding: "p-8 pt-24",
+        titleSize: "text-4xl",
+        headingSize: "text-2xl",
+        cardPadding: "p-6",
+        gapSize: "gap-4",
+        gridCols: "grid-cols-3 lg:grid-cols-4",
+        skillGridCols: "grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
+        iconSize: 32,
+        textSize: "text-base",
+        skillIconSize: 24,
+        sparkleSize: "w-8 h-8",
+      };
+    }
+  };
+
+  const styles = getResponsiveStyles();
+
   return (
-    <div className="relative w-full h-full">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="mobile-container relative z-10"
-      >
-        <section
-          className="relative z-[1] h-full"
-          style={{
-            background: `linear-gradient(to right, #100119, #080707)`,
-          }}
-        >
-          <div className="relative z-[2] min-h-screen p-4">
-            <div className="mb-6">
+    <div className="relative w-full min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-gray-900 overflow-hidden">
+      {/* Floating Particles Background - Pure CSS Animation */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-10 left-[10%] w-1 h-1 bg-purple-400/20 rounded-full animate-float-slow"></div>
+        <div className="absolute top-20 left-[30%] w-1 h-1 bg-purple-400/20 rounded-full animate-float-medium delay-200"></div>
+        <div className="absolute top-30 left-[50%] w-1 h-1 bg-purple-400/20 rounded-full animate-float-fast delay-500"></div>
+        <div className="absolute top-40 left-[70%] w-1 h-1 bg-purple-400/20 rounded-full animate-float-slow delay-300"></div>
+        <div className="absolute top-50 left-[85%] w-1 h-1 bg-purple-400/20 rounded-full animate-float-medium delay-700"></div>
+        <div className="absolute top-60 left-[15%] w-1 h-1 bg-purple-400/20 rounded-full animate-float-fast delay-100"></div>
+        <div className="absolute top-70 left-[45%] w-1 h-1 bg-purple-400/20 rounded-full animate-float-slow delay-600"></div>
+        <div className="absolute top-80 left-[65%] w-1 h-1 bg-purple-400/20 rounded-full animate-float-medium delay-400"></div>
+        <div className="absolute top-90 left-[90%] w-1 h-1 bg-purple-400/20 rounded-full animate-float-fast delay-800"></div>
+        <div className="absolute top-100 left-[5%] w-1 h-1 bg-purple-400/20 rounded-full animate-float-slow delay-900"></div>
+      </div>
+
+      <div className="relative z-10 animate-fade-in">
+        <section className="relative z-[1] min-h-screen">
+          <div
+            className={`relative z-[2] min-h-screen ${styles.containerPadding} max-w-7xl mx-auto`}
+          >
+            {/* Title with Sparkles Icon */}
+            <div className="mb-8 text-center animate-slide-down">
+              {/* Sparkles Icon - Pure CSS Animation */}
+              <div className="flex justify-center mb-3">
+                <div className="animate-spin-slow">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={`lucide lucide-sparkles text-purple-400 ${styles.sparkleSize}`}
+                    aria-hidden="true"
+                  >
+                    <path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" />
+                    <path d="M20 2v4" />
+                    <path d="M22 4h-4" />
+                    <circle cx="4" cy="20" r="2" />
+                  </svg>
+                </div>
+              </div>
+
               <DecryptedText
                 text="About Me"
                 animateOn="view"
                 revealDirection="center"
-                className="text-2xl font-bold gradient-text"
+                className={`${styles.titleSize} font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent`}
                 parentClassName="block"
                 speed={30}
                 maxIterations={10}
               />
+              <div className="h-1 w-[60px] bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mt-3 animate-expand-width"></div>
             </div>
 
             {/* About Me Section */}
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.1 }}
-              className="card bg-gray-900/50 border border-gray-800 p-6 mb-6"
+            <div
+              className={`bg-gradient-to-br from-purple-900/40 to-purple-800/20 backdrop-blur-xl border border-purple-500/30 rounded-2xl ${styles.cardPadding} mb-8 transition-all duration-300 hover:border-purple-500/60 hover:shadow-xl hover:shadow-purple-500/20 hover:scale-[1.01] animate-fade-up`}
             >
-              <p className="text-gray-300 leading-relaxed">
-                IT graduate seeking a Junior Developer role. Skilled in web
-                development, database management, and network support. Quick
-                learner committed to contributing to team goals.
-              </p>
-            </motion.div>
+              <div className="flex items-start gap-3">
+                <Sparkles className="text-purple-400 w-5 h-5 mt-1 flex-shrink-0" />
+                <p
+                  className={`text-gray-300 leading-relaxed ${styles.textSize}`}
+                >
+                  IT graduate (BSIT 2026) with hands-on experience in full-stack
+                  web development and network infrastructure. Built production-
+                  ready web applications using Laravel, PHP, and MySQL during
+                  academic projects, and completed a 300-hour OJT at REDBERG
+                  Corp (PLDT) configuring LAN/WAN networks and providing
+                  technical support. Eager to contribute as a Junior Developer
+                  or IT Support professional in a team that values practical
+                  problem-solving and continuous learning.
+                </p>
+              </div>
+            </div>
 
             {/* Work Experience Section */}
-            <motion.h3
-              initial={{ y: -20 }}
-              animate={{ y: 0 }}
-              className="text-xl font-semibold text-white mb-4 flex items-center gap-2"
-            >
-              <Briefcase size={22} className="text-blue-500" />
-              Work Experience
-            </motion.h3>
+            <div>
+              <div
+                className={`${styles.headingSize} font-semibold text-white mb-6 flex items-center gap-2 flex-wrap`}
+              >
+                <Briefcase size={22} className="text-purple-500" />
+                Work Experience
+                <span className="ml-2 animate-spin-slow inline-block">
+                  <Zap size={16} className="text-yellow-400" />
+                </span>
+              </div>
 
-            <div className="space-y-4 mb-8">
-              {workExperiences.map((exp, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  whileHover={{ scale: 1.02, x: 5 }}
-                  transition={{ delay: 0.1 * index }}
-                  className="card bg-gray-900/50 border border-gray-800 p-4 transition-colors hover:border-blue-500/50"
-                >
-                  <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
-                    <div>
-                      <h4 className="font-bold text-white text-lg">
-                        {exp.title}
-                      </h4>
-                      <p className="text-blue-400 font-medium text-sm">
-                        {exp.company}
-                      </p>
+              <div className="mb-12">
+                <div className="space-y-6">
+                  {workExperiences.map((exp, index) => (
+                    <div
+                      key={index}
+                      data-index={index}
+                      onMouseEnter={() => setHoveredIndex(index)}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                      className="bg-gradient-to-r from-purple-900/30 to-purple-800/20 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-4 transition-all duration-300 hover:border-purple-500/60 hover:shadow-lg hover:shadow-purple-500/20 hover:scale-[1.02] animate-slide-in-left"
+                      style={{ animationDelay: `${index * 0.1}s` }}
+                    >
+                      <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-3">
+                        <div>
+                          <h4 className="font-bold text-white text-base">
+                            {exp.title}
+                          </h4>
+                          <p className="text-purple-300 text-sm font-medium">
+                            {exp.company}
+                          </p>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          <span className="text-xs text-purple-300 bg-purple-500/20 px-2 py-1 rounded-full">
+                            {exp.period}
+                          </span>
+                          <span className="text-xs text-gray-400 flex items-center gap-1">
+                            <MapPin size={12} />
+                            {exp.location}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        {exp.description.map((item, idx) => (
+                          <div key={idx} className="flex items-start gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 flex-shrink-0" />
+                            <span className="text-gray-400 text-sm leading-relaxed">
+                              {item}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <div className="flex flex-col md:items-end mt-2 md:mt-0">
-                      <span className="flex items-center text-sm text-gray-400">
-                        <Calendar size={14} className="mr-1" />
-                        {exp.period}
-                      </span>
-                      <span className="flex items-center text-sm text-gray-400">
-                        <MapPin size={14} className="mr-1" />
-                        {exp.location}
-                      </span>
-                    </div>
-                  </div>
-                  <p className="text-gray-400 text-sm mt-2 leading-relaxed">
-                    {exp.description}
-                  </p>
-                </motion.div>
-              ))}
+                  ))}
+                </div>
+              </div>
             </div>
 
             {/* Skills Section */}
-            <motion.h3
-              initial={{ y: -20 }}
-              animate={{ y: 0 }}
-              className="text-xl font-semibold text-white mb-4"
-            >
-              Skills & Expertise
-            </motion.h3>
+            <div>
+              <div
+                className={`${styles.headingSize} font-semibold text-white mb-6 flex items-center gap-2 flex-wrap`}
+              >
+                <Award size={22} className="text-purple-500" />
+                Skills & Expertise
+              </div>
 
-            <div className="space-y-4 mb-8">
-              {skills.map((skill, index) => (
-                <motion.div
-                  key={skill.name}
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  whileHover={{ scale: 1.02, x: 5 }}
-                  transition={{ delay: 0.1 * index }}
-                  className="card bg-gray-900/50 border border-gray-800 p-4 transition-colors hover:border-blue-500/50"
-                >
-                  <div className="flex justify-between mb-2">
-                    <span className="font-medium text-gray-300">
-                      {skill.name}
-                    </span>
-                    <span className="text-sm text-gray-400">
-                      {skill.level}%
-                    </span>
+              <div className={`grid ${styles.skillGridCols} gap-4 mb-12`}>
+                {skills.map((skill, index) => (
+                  <div
+                    key={skill.name}
+                    className="bg-gradient-to-br from-purple-900/40 to-purple-800/20 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-4 transition-all duration-300 hover:border-purple-500/60 hover:shadow-lg hover:shadow-purple-500/20 hover:scale-[1.05] hover:-translate-y-1 group animate-scale-in"
+                    style={{ animationDelay: `${index * 0.05}s` }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-purple-500/20 rounded-xl group-hover:bg-purple-500/30 transition-colors">
+                        <skill.icon
+                          size={styles.skillIconSize}
+                          className="text-purple-400"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-white text-sm">
+                          {skill.name}
+                        </h4>
+                        <p className="text-gray-400 text-xs">
+                          {skill.description}
+                        </p>
+                      </div>
+                      <CheckCircle
+                        size={16}
+                        className="text-green-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                      />
+                    </div>
                   </div>
-                  <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${skill.level}%` }}
-                      transition={{ duration: 1, delay: 0.2 * index }}
-                      className={`h-full ${skill.color} rounded-full`}
-                    />
-                  </div>
-                </motion.div>
-              ))}
+                ))}
+              </div>
             </div>
 
             {/* What I Bring Section */}
-            <motion.h3
-              initial={{ y: -20 }}
-              animate={{ y: 0 }}
-              className="text-xl font-semibold text-white mb-4"
-            >
-              What I Bring
-            </motion.h3>
+            <div>
+              <div
+                className={`${styles.headingSize} font-semibold text-white mb-6`}
+              >
+                What I Bring
+              </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              {qualities.map((quality, index) => (
-                <motion.div
-                  key={quality.text}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  whileHover={{
-                    scale: 1.05,
-                    translateY: -5,
-                    boxShadow:
-                      "0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3)",
-                  }}
-                  transition={{
-                    delay: 0.1 * index,
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 15,
-                  }}
-                  className="card bg-gray-900/50 border border-gray-800 p-4 text-center cursor-default transition-colors hover:border-blue-500/50"
-                >
-                  <quality.icon
-                    className={`${quality.color} mx-auto mb-2`}
-                    size={32}
-                  />
-                  <p className="text-sm font-medium text-gray-300">
-                    {quality.text}
-                  </p>
-                </motion.div>
-              ))}
+              <div className={`grid ${styles.gridCols} ${styles.gapSize}`}>
+                {qualities.map((quality, index) => (
+                  <div
+                    key={quality.text}
+                    className="bg-gradient-to-br from-purple-900/40 to-purple-800/20 backdrop-blur-xl border border-purple-500/30 rounded-2xl p-4 text-center cursor-pointer transition-all duration-300 hover:border-purple-500/70 hover:scale-[1.05] hover:-translate-y-2 hover:shadow-xl hover:shadow-purple-500/30 group animate-scale-in"
+                    style={{ animationDelay: `${index * 0.03}s` }}
+                  >
+                    <quality.icon
+                      className={`${quality.color} mx-auto mb-2 transition-all duration-300 group-hover:scale-110`}
+                      size={styles.iconSize}
+                    />
+                    <p
+                      className={`font-medium text-gray-300 ${isMobile ? "text-xs" : "text-sm"} transition-all duration-300 group-hover:text-white`}
+                    >
+                      {quality.text}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
+          {/* Background Decoration */}
           <figure
             className="absolute top-0 left-0 pointer-events-none w-full h-full overflow-hidden z-[1]"
             aria-hidden="true"
           >
             <svg
-              className="absolute top-0 left-2/4 -translate-x-2/4 w-[134%] min-w-[1280px] max-w-[1980px] h-auto"
+              className={`absolute top-0 left-2/4 -translate-x-2/4 ${isMobile ? "w-[200%] opacity-30" : "w-[134%]"} h-auto ${isMobile ? "min-w-full" : "min-w-[1280px] max-w-[1980px]"}`}
               viewBox="0 0 1920 450"
               fill="none"
             >
@@ -356,7 +494,122 @@ const AboutPage: React.FC = () => {
             </svg>
           </figure>
         </section>
-      </motion.div>
+      </div>
+
+      {/* Tailwind CSS Animations */}
+      <style>{`
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes fade-up {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes slide-down {
+          from {
+            opacity: 0;
+            transform: translateY(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes slide-in-left {
+          from {
+            opacity: 0;
+            transform: translateX(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        @keyframes scale-in {
+          from {
+            opacity: 0;
+            transform: scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        @keyframes expand-width {
+          from {
+            width: 0;
+          }
+          to {
+            width: 60px;
+          }
+        }
+        @keyframes spin-slow {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+        @keyframes float-slow {
+          0%, 100% {
+            transform: translateY(0);
+            opacity: 0;
+          }
+          50% {
+            transform: translateY(-20px);
+            opacity: 0.5;
+          }
+        }
+        @keyframes float-medium {
+          0%, 100% {
+            transform: translateY(0);
+            opacity: 0;
+          }
+          50% {
+            transform: translateY(-15px);
+            opacity: 0.4;
+          }
+        }
+        @keyframes float-fast {
+          0%, 100% {
+            transform: translateY(0);
+            opacity: 0;
+          }
+          50% {
+            transform: translateY(-10px);
+            opacity: 0.3;
+          }
+        }
+        
+        .animate-fade-in { animation: fade-in 0.5s ease forwards; }
+        .animate-fade-up { animation: fade-up 0.5s ease forwards; }
+        .animate-slide-down { animation: slide-down 0.5s ease forwards; }
+        .animate-slide-in-left { animation: slide-in-left 0.5s ease forwards; opacity: 0; }
+        .animate-scale-in { animation: scale-in 0.3s ease forwards; opacity: 0; }
+        .animate-expand-width { animation: expand-width 0.5s ease forwards; }
+        .animate-spin-slow { animation: spin-slow 2s linear infinite; }
+        .animate-float-slow { animation: float-slow 4s ease-in-out infinite; }
+        .animate-float-medium { animation: float-medium 3s ease-in-out infinite; }
+        .animate-float-fast { animation: float-fast 2s ease-in-out infinite; }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+        .delay-700 { animation-delay: 0.7s; }
+        .delay-800 { animation-delay: 0.8s; }
+        .delay-900 { animation-delay: 0.9s; }
+      `}</style>
     </div>
   );
 };
