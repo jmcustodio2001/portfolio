@@ -12,7 +12,7 @@ import {
 import { Project } from "../types";
 import project1Image from "./1.PNG";
 import project2Image from "./11.PNG";
-import project3Image from "./2.PNG";
+import project3Image from "./2.png";
 
 type Category = "all" | "featured";
 
