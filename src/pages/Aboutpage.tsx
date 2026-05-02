@@ -112,8 +112,12 @@ const AboutPage: React.FC = () => {
       color: "text-indigo-500",
     },
     { icon: Lightbulb, text: "Problem Solver", color: "text-orange-500" },
-    { icon: Clock, text: "Project Management", color: "text-teal-500" },
-    { icon: GitBranch, text: "Version Control (Git)", color: "text-green-600" },
+    { icon: Clock, text: "Time Management", color: "text-teal-500" },
+    {
+      icon: GitBranch,
+      text: "Version Control (Github)",
+      color: "text-green-600",
+    },
     { icon: Search, text: "Attention to Detail", color: "text-rose-500" },
   ];
 

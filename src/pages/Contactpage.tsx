@@ -50,7 +50,7 @@ const ContactPage: React.FC = () => {
 
       // Create Gmail compose link with form data
       const subject = `Portfolio Contact: ${formData.name} sent a message`;
-      const body = `Name: ${formData.name}Email: ${formData.email}AMessage:%0D%0A${formData.message}Sent from Portfolio Contact Form`;
+      const body = `Name: ${formData.name}Email: ${formData.email}Message:${formData.message}Sent from Portfolio Contact Form`;
 
       const gmailComposeLink = `https://mail.google.com/mail/?view=cm&fs=1&to=j.mcustodio2001@gmail.com&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
