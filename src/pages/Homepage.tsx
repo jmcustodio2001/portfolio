@@ -128,10 +128,10 @@ const HomePage: React.FC = () => {
   };
 
   const downloadCV = () => {
-    const cvUrl = "/cv/John_Mark_Custodio_Resume.pdf";
+    const cvUrl = "/cv/Custodio_John_Mark_Resume.pdf";
     const link = document.createElement("a");
     link.href = cvUrl;
-    link.download = "John_Mark_Custodio_Resume.pdf";
+    link.download = "Custodio_John_Mark_Resume.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
